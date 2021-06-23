@@ -6,6 +6,7 @@ import { useDataLayer } from '../Context/Context';
 
 const useRandomImage = (breed, type, number) => {
   const [randomImage, setRandomImage] = useState('');
+  const [loading, setLoading] = useState(false);
   const [{ dogInfo }] = useDataLayer();
 
   useEffect(() => {
@@ -20,6 +21,8 @@ const useRandomImage = (breed, type, number) => {
     }
 
     if (breed && type && number) {
+      setLoading(true);
+
       return axios
         .get(`https://dog.ceo/api/breed/${breed}/${type}/images/random/${number}`)
         .then(({ data }) => {
@@ -29,10 +32,13 @@ const useRandomImage = (breed, type, number) => {
             setRandomImage(message);
           }
         })
-        .catch(console.error);
+        .catch(console.error)
+        .finally(() => setLoading(false));
     }
 
     if (breed && number) {
+      setLoading(true);
+
       return axios
         .get(`https://dog.ceo/api/breed/${breed}/images/random/${number}`)
         .then(({ data }) => {
@@ -42,11 +48,12 @@ const useRandomImage = (breed, type, number) => {
             setRandomImage(message);
           }
         })
-        .catch(console.error);
+        .catch(console.error)
+        .finally(() => setLoading(false));
     }
   }, [breed, type, number]);
 
-  return { randomImage };
+  return { randomImage, loading };
 };
 
 useRandomImage.propTypes = {

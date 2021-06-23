@@ -5,7 +5,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: 100
   },
   link: {
-    padding: 30
+    padding: 30,
+    textTransform: 'capitalize'
   }
 }));
 

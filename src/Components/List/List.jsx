@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, List as MuiList, ListItem } from '@material-ui/core';
+import { Grid, List as MuiList, ListItem, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import useStyles from './List.styles';
@@ -8,6 +8,7 @@ import { SubList } from '../../Components';
 import { useAllBreeds } from '../../Hooks';
 import { useDataLayer } from '../../Context/Context';
 import { TYPES } from '../../Context/types';
+import dogLogo from '../../assets/dog-api-logo.svg';
 
 const List = () => {
   const [{ allDogs }, dispatch] = useDataLayer();
@@ -45,12 +46,16 @@ const List = () => {
           }
 
           return (
-            <ListItem className={classes.capitalize} key={breed} onClick={() => handleClick(breed)}>
+            <ListItem className={classes.list} key={breed} onClick={() => handleClick(breed)}>
               {breed}
             </ListItem>
           );
         })}
       </MuiList>
+      <Grid className={classes.container}>
+        <Typography variant="h1" className={classes.logoText}>Dog API</Typography>
+        <img src={dogLogo} alt="Dog API" />
+      </Grid>
     </Grid>
   );
 };

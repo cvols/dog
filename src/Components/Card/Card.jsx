@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Card as MuiCard, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import { Button, Card as MuiCard, CardActionArea, CardActions, CardContent, CardMedia, Typography } from '@material-ui/core';
 
 import useStyles from './Card.styles';
+import funFacts from '../../funFacts';
+
+const getFunFact = () => {
+  const funFact = funFacts[Math.floor(Math.random() * funFacts.length)];
+
+  return funFact;
+};
 
 const Card = ({ src, type, breed }) => {
   const classes = useStyles();
+  const [funFact, setFunFact] = useState('');
+
+  useEffect(() => {
+    setFunFact(getFunFact());
+  }, []);
 
   return (
     <MuiCard className={classes.root}>
@@ -16,8 +28,7 @@ const Card = ({ src, type, breed }) => {
             {type ? type : breed}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents
-            except Antarctica
+            {funFact}
           </Typography>
         </CardContent>
       </CardActionArea>
