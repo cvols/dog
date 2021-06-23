@@ -35,7 +35,7 @@ const Card = ({ src, type, breed }) => {
 
 Card.propTypes = {
   src: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string
 };
 
 export default Card;

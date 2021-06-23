@@ -17,7 +17,7 @@ const Dog = props => {
   const [breed, setBreed] = useState('');
   const [type, setType] = useState('');
   const { randomImage } = useRandomImage(breed, type, 4);
-  const { DOGS } = TYPES;
+  const { UPDATE_DOG } = TYPES;
 
   useEffect(() => {
     setBreed(pathname.split('/')[2]);
@@ -30,7 +30,7 @@ const Dog = props => {
 
       if (!match) {
         dispatch({
-          type: DOGS,
+          type: UPDATE_DOG,
           payload: {
             breed,
             type: type ? type : null,
@@ -52,8 +52,8 @@ const Dog = props => {
       </Typography>
       <Grid container className={classes.container}>
         {randomImage.length > 0 &&
-          randomImage.map(image => {
-            return <Card src={image} type={type} breed={breed} />;
+          randomImage.map((image, i) => {
+            return <Card key={i} src={image} type={type} breed={breed} />;
           })}
       </Grid>
     </Grid>

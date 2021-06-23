@@ -1,3 +1,4 @@
 export const TYPES = {
-  DOGS: 'DOGS'
+  UPDATE_DOG: 'UPDATE_DOG',
+  UPDATE_ALL: 'UPDATE_ALL'
 };
