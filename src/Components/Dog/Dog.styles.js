@@ -6,7 +6,11 @@ const useStyles = makeStyles(theme => ({
   },
   link: {
     padding: 30,
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    textAlign: 'end'
+  },
+  flex: {
+    flex: 1
   }
 }));
 

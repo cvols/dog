@@ -5,7 +5,7 @@ import { Grid, Typography, Link, CircularProgress } from '@material-ui/core';
 
 import useStyles from './Dog.styles';
 import { useRandomImage } from '../../Hooks';
-import { Card } from '../../Components';
+import { Card, Preview } from '../../Components';
 import { useDataLayer } from '../../Context/Context';
 import { TYPES } from '../../Context/types';
 
@@ -17,37 +17,56 @@ const Dog = props => {
   const { pathname } = location;
   const [breed, setBreed] = useState('');
   const [type, setType] = useState('');
-  const [next, setNext] = useState('');
+  const [nextDog, setNextDog] = useState('');
+  const [dogs, setDogs] = useState([]);
   const { randomImage, loading } = useRandomImage(breed, type, 4);
   const { UPDATE_DOG } = TYPES;
+  const [componentDidMount, setComponentDidMount] = useState(false);
 
   useEffect(() => {
-    setBreed(pathname.split('/')[2]);
-    setType(pathname.split('/')[3]);
+    const breed = pathname.split('/')[2] || null;
+    if (breed) {
+      setBreed(breed);
+    }
+    const type = pathname.split('/')[3] || null;
+    if (type) {
+      setType(type);
+    }
   }, [pathname]);
 
   useEffect(() => {
     if (randomImage.length > 0) {
-      const match = dogInfo.some(dog => dog.breed === breed);
+      dispatch({
+        type: UPDATE_DOG,
+        payload: {
+          breed,
+          type: type ? type : null,
+          images: randomImage
+        }
+      });
 
-      if (!match) {
-        dispatch({
-          type: UPDATE_DOG,
-          payload: {
-            breed,
-            type: type ? type : null,
-            images: randomImage
-          }
-        });
+      if (!componentDidMount) {
+        setDogs(randomImage);
+        setComponentDidMount(true);
       }
     }
   }, [randomImage]);
 
   useEffect(() => {
-    const array = Object.keys(allDogs).filter(dog => dog);
-    const index = array.indexOf(breed);
-    setNext(array[index + 1]);
+    if (breed) {
+      const array = Object.keys(allDogs).filter(dog => dog);
+      const index = array.indexOf(breed);
+      setNextDog(array[index + 1]);
+    }
   }, [allDogs, breed]);
+
+  useEffect(() => {
+    const found = dogInfo.find(dog => dog.breed === breed);
+
+    if (found) {
+      setDogs(found.images);
+    }
+  }, [dogInfo, breed]);
 
   const handleClick = () => {
     history.push('/');
@@ -60,13 +79,18 @@ const Dog = props => {
   return (
     <Grid container>
       <Grid container justify="space-between">
-        <Typography onClick={handleClick} className={classes.link}>
-          Home
-        </Typography>
-        {next && (
-          <Typography onClick={() => handleNextClick(next)} className={classes.link}>
-            {`Next - ${next}`}
+        <Grid container className={classes.flex}>
+          <Typography onClick={handleClick} className={classes.link}>
+            Home
           </Typography>
+        </Grid>
+        {nextDog && (
+          <Grid container justify="flex-end" className={classes.flex}>
+            <Typography onClick={() => handleNextClick(nextDog)} className={classes.link}>
+              {`Next - ${nextDog}`}
+              <Preview breed={nextDog} type={type} />
+            </Typography>
+          </Grid>
         )}
       </Grid>
       <Grid container className={classes.container}>
@@ -75,8 +99,8 @@ const Dog = props => {
             <CircularProgress size="100px" color="secondary" />
           </Grid>
         )}
-        {randomImage.length > 0 &&
-          randomImage.map((image, i) => {
+        {dogs.length > 0 &&
+          dogs.map((image, i) => {
             return <Card key={i} src={image} type={type} breed={breed} />;
           })}
       </Grid>

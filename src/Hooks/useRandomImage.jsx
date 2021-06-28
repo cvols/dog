@@ -5,20 +5,16 @@ import PropTypes from 'prop-types';
 import { useDataLayer } from '../Context/Context';
 
 const useRandomImage = (breed, type, number) => {
-  const [randomImage, setRandomImage] = useState('');
+  const [randomImage, setRandomImage] = useState([]);
   const [loading, setLoading] = useState(false);
   const [{ dogInfo }] = useDataLayer();
 
   useEffect(() => {
     if (!breed || !number) return;
 
-    if (dogInfo.length > 0) {
-      const match = dogInfo.filter(dog => dog.breed === breed);
-
-      if (match.length > 0) {
-        return setRandomImage(match[0].images);
-      }
-    }
+    // don't make api call if we have images for the dog already
+    const found = dogInfo.find(dog => dog.breed === breed);
+    if (found?.images.length === 4) return;
 
     if (breed && type && number) {
       setLoading(true);
