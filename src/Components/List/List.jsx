@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { Grid, List as MuiList, ListItem, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
@@ -53,7 +52,9 @@ const List = () => {
         })}
       </MuiList>
       <Grid className={classes.container}>
-        <Typography variant="h1" className={classes.logoText}>Dog API</Typography>
+        <Typography variant="h1" className={classes.logoText}>
+          Dog API
+        </Typography>
         <img src={dogLogo} alt="Dog API" />
       </Grid>
     </Grid>

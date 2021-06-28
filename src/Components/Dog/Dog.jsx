@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Grid, Typography, Link, CircularProgress } from '@material-ui/core';
+import { Grid, Typography, CircularProgress } from '@material-ui/core';
 
 import useStyles from './Dog.styles';
 import { useRandomImage } from '../../Hooks';
@@ -9,7 +8,7 @@ import { Card, Preview } from '../../Components';
 import { useDataLayer } from '../../Context/Context';
 import { TYPES } from '../../Context/types';
 
-const Dog = props => {
+const Dog = () => {
   const [{ dogInfo, allDogs }, dispatch] = useDataLayer();
   const classes = useStyles();
   const history = useHistory();

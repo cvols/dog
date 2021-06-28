@@ -5,7 +5,6 @@ import { Grid, CircularProgress } from '@material-ui/core';
 import { useRandomImage } from '../../Hooks/';
 import { useDataLayer } from '../../Context/Context';
 import { TYPES } from '../../Context/types';
-import useStyles from './Preview.styles';
 
 const Preview = ({ breed, type }) => {
   const [{ dogInfo }, dispatch] = useDataLayer();
