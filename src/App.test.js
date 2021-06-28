@@ -1,8 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import { Card, Preview } from './Components';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders Card component', () => {
+  const src = 'https://images.dog.ceo/breeds/affenpinscher/n02110627_10147.jpg';
+  const breed = 'Affenpinscher';
+
+  render(<Card src={src} breed={breed} />);
+
+  const nameElement = screen.getByText(breed);
+  const shareElement = screen.getByText('Share');
+  const learnMoreElement = screen.getByText('Learn More');
+
+  expect(nameElement).toBeInTheDocument();
+  expect(shareElement).toBeInTheDocument();
+  expect(learnMoreElement).toBeInTheDocument();
 });

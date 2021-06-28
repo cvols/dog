@@ -46,6 +46,7 @@ const Card = ({ src, type, breed }) => {
 
 Card.propTypes = {
   src: PropTypes.string.isRequired,
+  breed: PropTypes.string.isRequired,
   type: PropTypes.string
 };
 
